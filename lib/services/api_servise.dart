@@ -1,0 +1,75 @@
+import 'dart:convert';
+import 'dart:developer';
+
+import 'package:netflix_clon/common/utils.dart';
+import 'package:netflix_clon/models/search_model.dart';
+import 'package:netflix_clon/models/tv_seres_model.dart';
+import 'package:netflix_clon/models/upcomin_model.dart';
+import 'package:http/http.dart' as http;
+
+const baseurl = "https://api.themoviedb.org/3/";
+var key = "?api_key=$apikey";
+late String endpoint;
+
+class ApiServise {
+  Future<UpcominMovieModel> getUpcomingMovies() async {
+    endpoint = "movie/upcoming";
+    final url = "$baseurl$endpoint$key";
+
+    final response = await http.get(Uri.parse(url));
+
+    if (response.statusCode == 200) {
+      log("Succes ");
+
+      return UpcominMovieModel.fromJson(jsonDecode(response.body));
+    }
+    throw Exception("field to log upcoming movies");
+  }
+
+  Future<UpcominMovieModel> getNowPlayingMovies() async {
+    endpoint = "movie/now_playing";
+    final url = "$baseurl$endpoint$key";
+
+    final response = await http.get(Uri.parse(url));
+
+    if (response.statusCode == 200) {
+      log("Succes ");
+
+      return UpcominMovieModel.fromJson(jsonDecode(response.body));
+    }
+    throw Exception("field to log Now Playing movies");
+  }
+
+
+   Future<TvSeriesModel> getTopRatedSeries() async {
+    endpoint = "tv/top_rated";
+    final url = "$baseurl$endpoint$key";
+
+    final response = await http.get(Uri.parse(url));
+
+    if (response.statusCode == 200) {
+      log("Succes ");
+
+      return TvSeriesModel.fromJson(jsonDecode(response.body));
+    }
+    throw Exception("field to log Top Rated Series");
+  }
+
+
+  Future<SearchModel> getSearchMovie(String searchtext) async {
+    endpoint = "search/movie?query=$searchtext";
+    final url = "$baseurl$endpoint";
+    print("search url = $url");
+    final response = await http.get(Uri.parse(url),headers: {'Authorization' : "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI3NTAyYjhjMDMxYzc5NzkwZmU1YzBiNGY5NGZkNzcwZCIsInN1YiI6IjYzMmMxYjAyYmE0ODAyMDA4MTcyNjM5NSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.N1SoB26LWgsA33c-5X0DT5haVOD4CfWfRhwpDu9eGkc"});
+
+    if (response.statusCode == 200) {
+      log("Succes ");
+
+      return SearchModel.fromJson(jsonDecode(response.body));
+    }
+    throw Exception("field to log searched to Movie");
+  }
+
+
+
+}
