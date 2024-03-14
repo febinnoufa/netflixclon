@@ -16,7 +16,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   late Future<UpcominMovieModel> upcomingFuture;
   late Future<UpcominMovieModel> nowplayingFuture;
-  late Future<TvSeriesModel> topRatedSeries ;
+  late Future<TvSeriesModel> topRatedSeries;
   ApiServise apiServise = ApiServise();
 
   @override
@@ -25,7 +25,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
     upcomingFuture = apiServise.getUpcomingMovies();
     nowplayingFuture = apiServise.getNowPlayingMovies();
-    topRatedSeries =apiServise.getTopRatedSeries();
+    topRatedSeries = apiServise.getTopRatedSeries();
   }
 
   @override
@@ -64,26 +64,29 @@ class _HomeScreenState extends State<HomeScreen> {
         body: SingleChildScrollView(
           child: Column(
             children: [
-           //   CostomCorouselSlider(data: ),
-           FutureBuilder(future: topRatedSeries, builder: (context, snapshot) {
-            if (snapshot.hasData) {
-              return CostomCorouselSlider(data:snapshot.data! );
-            }else{
-              return const SizedBox.shrink();
-            }
-             
-           },),
+              //   CostomCorouselSlider(data: ),
+              FutureBuilder(
+                future: topRatedSeries,
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    return CostomCorouselSlider(data: snapshot.data!);
+                  } else {
+                    return const SizedBox.shrink();
+                  }
+                },
+              ),
               SizedBox(
                   height: 220,
                   child: MovieCardWidget(
                       fucture: nowplayingFuture, headlinetext: "Now Playing ")),
-                      SizedBox(height: 20,),
+              SizedBox(
+                height: 20,
+              ),
               SizedBox(
                   height: 220,
                   child: MovieCardWidget(
                       fucture: upcomingFuture,
                       headlinetext: "Upcoming Movies")),
-              
             ],
           ),
         ));

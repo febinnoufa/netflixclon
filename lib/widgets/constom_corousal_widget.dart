@@ -22,12 +22,14 @@ class CostomCorouselSlider extends StatelessWidget {
 
             return GestureDetector(
                 child: Column(
-                  children: [
-                    CachedNetworkImage(imageUrl: "$imageurl$url"),
-                    SizedBox(height: 20,),
-                    Text(data.results[index].name)
-                  ],
-                ));
+              children: [
+                CachedNetworkImage(imageUrl: "$imageurl$url"),
+                const SizedBox(
+                  height: 20,
+                ),
+                Text(data.results[index].name)
+              ],
+            ));
           },
           options: CarouselOptions(
               height: (size.height * 0.33 < 300) ? 300 : size.height * 0.33,
@@ -35,8 +37,8 @@ class CostomCorouselSlider extends StatelessWidget {
               reverse: false,
               initialPage: 0,
               autoPlay: true,
-              autoPlayInterval: Duration(seconds: 3),
-              autoPlayAnimationDuration: Duration(milliseconds: 800),
+              autoPlayInterval: const Duration(seconds: 3),
+              autoPlayAnimationDuration: const Duration(milliseconds: 800),
               enlargeCenterPage: true,
               scrollDirection: Axis.horizontal)),
     );
