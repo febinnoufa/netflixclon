@@ -31,16 +31,14 @@ class _MyWidgetState extends State<SearchScreen> {
 
   @override
   void initState() {
-    super.initState();
-
     populerMovies = apiServise.getPopulerMovies();
+    super.initState();
   }
 
   @override
   void dispose() {
-    searchcontroller.dispose();
-
     super.dispose();
+    searchcontroller.dispose();
   }
 
   @override
@@ -50,8 +48,12 @@ class _MyWidgetState extends State<SearchScreen> {
       body: SingleChildScrollView(
         child: Column(
           children: [
+            const SizedBox(
+              height: 10,
+            ),
             CupertinoSearchTextField(
               controller: searchcontroller,
+              padding: const EdgeInsets.all(10.0),
               prefixIcon: const Icon(
                 Icons.search,
                 color: Colors.grey,
@@ -70,7 +72,7 @@ class _MyWidgetState extends State<SearchScreen> {
               },
             ),
             searchcontroller.text.isEmpty
-                ? FutureBuilder(
+                ? FutureBuilder<MovieRecommentationModel>(
                     future: populerMovies,
                     builder: (context, snapshot) {
                       if (snapshot.hasData) {
@@ -79,7 +81,7 @@ class _MyWidgetState extends State<SearchScreen> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             const SizedBox(
-                              height: 30,
+                              height: 20,
                             ),
                             const Text(
                               "Top Searches",
@@ -89,36 +91,55 @@ class _MyWidgetState extends State<SearchScreen> {
                               height: 20,
                             ),
                             ListView.builder(
-                              itemCount: data!.length,
-                              scrollDirection: Axis.vertical,
                               shrinkWrap: true,
                               physics: const NeverScrollableScrollPhysics(),
+                              // padding: const EdgeInsets.all(3),
+                              scrollDirection: Axis.vertical,
+                              itemCount: data!.length,
                               itemBuilder: (context, index) {
-                                return InkWell(
-                                  onTap: () {
-                                    Navigator.push(context, MaterialPageRoute(builder: (context) =>MovieDetailScreen(movieId: data[index].id,) ,));
-                                  },
-                                  child: Container(
-                                    height: 150,
-                                    padding: const EdgeInsets.all(5),
-                                    decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(20)),
-                                    child: Row(
-                                      children: [
-                                        Image.network(
-                                            "${imageurl}${data[index].posterPath}"),
-                                        const SizedBox(
-                                          width: 20,
-                                        ),
-                                        SizedBox(
-                                          width: 240,
-                                          child: Text(
-                                            data[index].title,
-                                            maxLines: 2,
-                                            overflow: TextOverflow.ellipsis,
+                                return Padding(
+                                  padding: const EdgeInsets.all(5.0),
+                                  child: InkWell(
+                                    onTap: () {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                MovieDetailScreen(
+                                              movieId: data[index].id,
+                                            ),
+                                          ));
+                                    },
+                                    child: Container(
+                                      height: 120,
+                                      // padding: const EdgeInsets.all(5),
+                                      decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(20)),
+                                      child: Row(
+                                        children: [
+                                          Image.network(
+                                            "$imageurl${data[index].posterPath}",
+                                            fit: BoxFit.fitHeight,
                                           ),
-                                        )
-                                      ],
+                                          const SizedBox(
+                                            width: 20,
+                                          ),
+                                          Text(
+                                            data[index].title,
+                                            // maxLines: 2,
+                                            // overflow: TextOverflow.ellipsis,
+                                          ),
+                                          // SizedBox(
+                                          //   width: 240,
+                                          //   child: Text(
+                                          //     data[index].title,
+                                          //     maxLines: 2,
+                                          //     overflow: TextOverflow.ellipsis,
+                                          //   ),
+                                          // )
+                                        ],
+                                      ),
                                     ),
                                   ),
                                 );
@@ -127,12 +148,15 @@ class _MyWidgetState extends State<SearchScreen> {
                           ],
                         );
                       } else {
-                        return const SizedBox.shrink();
+                        return const Center(
+                          child: CircularProgressIndicator(),
+                        );
                       }
                     })
                 : searchModel == null
                     ? const SizedBox.shrink()
                     : GridView.builder(
+                        padding: EdgeInsets.zero,
                         shrinkWrap: true,
                         physics: const NeverScrollableScrollPhysics(),
                         itemCount: searchModel?.results.length,
@@ -146,26 +170,62 @@ class _MyWidgetState extends State<SearchScreen> {
                           return Column(
                             children: [
                               searchModel!.results[index].backdropPath == null
-                                  ? Image.asset(
-                                      "assets/netflix.png",
-                                      height: 150,
+                                  ? Column(
+                                      children: [
+                                        Image.asset(
+                                          "assets/netflix.png",
+                                          height: 150,
+                                        ),
+                                        Text(
+                                          searchModel!.results[index].title,
+                                          maxLines: 2,
+                                          style: const TextStyle(
+                                            fontSize: 14,
+                                          ),
+                                        )
+                                      ],
                                     )
-                                  : CachedNetworkImage(
-                                      imageUrl:
-                                          "$imageurl${searchModel!.results[index].backdropPath}",
-                                      height: 150,
+                                  : Column(
+                                      children: [
+                                        InkWell(
+                                          onTap: () {
+                                            Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      MovieDetailScreen(
+                                                          movieId: searchModel!
+                                                              .results[index]
+                                                              .id),
+                                                ));
+                                          },
+                                          child: CachedNetworkImage(
+                                            imageUrl:
+                                                "$imageurl${searchModel!.results[index].backdropPath}",
+                                            height: 150,
+                                          ),
+                                        ),
+                                      ],
                                     ),
-                              SizedBox(
-                                width: 100,
-                                child: Text(
-                                  searchModel!.results[index].originalTitle,
-                                  maxLines: 2,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: const TextStyle(
-                                    fontSize: 14,
-                                  ),
+
+                              Text(
+                                searchModel!.results[index].title,
+                                maxLines: 2,
+                                style: const TextStyle(
+                                  fontSize: 14,
                                 ),
-                              )
+                              ),
+                              // SizedBox(
+                              //   width: 100,
+                              //   child: Text(
+                              //     searchModel!.results[index].originalTitle,
+                              //     maxLines: 2,
+                              //     overflow: TextOverflow.ellipsis,
+                              //     style: const TextStyle(
+                              //       fontSize: 14,
+                              //     ),
+                              //   ),
+                              // )
                             ],
                           );
                         },

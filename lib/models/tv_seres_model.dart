@@ -47,11 +47,11 @@ class TvSeriesModel {
 
 class Result {
     bool adult;
-    String backdropPath;
+    String? backdropPath;
     List<int> genreIds;
     int id;
     List<String> originCountry;
-    OriginalLanguage originalLanguage;
+    String originalLanguage;
     String originalName;
     String overview;
     double popularity;
@@ -84,7 +84,7 @@ class Result {
         List<int>? genreIds,
         int? id,
         List<String>? originCountry,
-        OriginalLanguage? originalLanguage,
+        String? originalLanguage,
         String? originalName,
         String? overview,
         double? popularity,
@@ -121,7 +121,7 @@ class Result {
         genreIds: List<int>.from(json["genre_ids"].map((x) => x)),
         id: json["id"],
         originCountry: List<String>.from(json["origin_country"].map((x) => x)),
-        originalLanguage: originalLanguageValues.map[json["original_language"]]!,
+        originalLanguage: json["original_language"],
         originalName: json["original_name"],
         overview: json["overview"],
         popularity: json["popularity"]?.toDouble(),
@@ -138,7 +138,7 @@ class Result {
         "genre_ids": List<dynamic>.from(genreIds.map((x) => x)),
         "id": id,
         "origin_country": List<dynamic>.from(originCountry.map((x) => x)),
-        "original_language": originalLanguageValues.reverse[originalLanguage],
+        "original_language": originalLanguage,
         "original_name": originalName,
         "overview": overview,
         "popularity": popularity,
@@ -148,28 +148,4 @@ class Result {
         "vote_average": voteAverage,
         "vote_count": voteCount,
     };
-}
-
-enum OriginalLanguage {
-    EN,
-    JA,
-    KO
-}
-
-final originalLanguageValues = EnumValues({
-    "en": OriginalLanguage.EN,
-    "ja": OriginalLanguage.JA,
-    "ko": OriginalLanguage.KO
-});
-
-class EnumValues<T> {
-    Map<String, T> map;
-    late Map<T, String> reverseMap;
-
-    EnumValues(this.map);
-
-    Map<T, String> get reverse {
-        reverseMap = map.map((k, v) => MapEntry(v, k));
-        return reverseMap;
-    }
 }
