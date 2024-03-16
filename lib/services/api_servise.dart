@@ -103,4 +103,20 @@ class ApiServise {
     }
     throw Exception("field to log searched to Movie");
   }
+
+  Future<MovieRecommentationModel> getMovieRecommentations(int movieId) async {
+    endpoint = "movie/$movieId/recommendations";
+    final url = "$baseurl$endpoint$key";
+    print("recommentation url = $url");
+    final response = await http.get(
+      Uri.parse(url),
+    );
+
+    if (response.statusCode == 200) {
+      log("Succes ");
+
+      return MovieRecommentationModel.fromJson(jsonDecode(response.body));
+    }
+    throw Exception("field to log Movie detail ");
+  }
 }

@@ -125,19 +125,19 @@ class _MyWidgetState extends State<SearchScreen> {
                                           const SizedBox(
                                             width: 20,
                                           ),
-                                          Text(
-                                            data[index].title,
-                                            // maxLines: 2,
-                                            // overflow: TextOverflow.ellipsis,
-                                          ),
-                                          // SizedBox(
-                                          //   width: 240,
-                                          //   child: Text(
-                                          //     data[index].title,
-                                          //     maxLines: 2,
-                                          //     overflow: TextOverflow.ellipsis,
-                                          //   ),
-                                          // )
+                                          // Text(
+                                          //   data[index].title,
+                                          //   maxLines: 2,
+                                          //   overflow: TextOverflow.ellipsis,
+                                          // ),
+                                          SizedBox(
+                                            width: 240,
+                                            child: Text(
+                                              data[index].title,
+                                              maxLines: 2,
+                                              overflow: TextOverflow.ellipsis,
+                                            ),
+                                          )
                                         ],
                                       ),
                                     ),
@@ -167,66 +167,79 @@ class _MyWidgetState extends State<SearchScreen> {
                                 crossAxisSpacing: 5,
                                 childAspectRatio: 1.2 / 2),
                         itemBuilder: (context, index) {
-                          return Column(
-                            children: [
-                              searchModel!.results[index].backdropPath == null
-                                  ? Column(
-                                      children: [
-                                        Image.asset(
-                                          "assets/netflix.png",
-                                          height: 150,
-                                        ),
-                                        Text(
-                                          searchModel!.results[index].title,
-                                          maxLines: 2,
-                                          style: const TextStyle(
-                                            fontSize: 14,
-                                          ),
-                                        )
-                                      ],
-                                    )
-                                  : Column(
-                                      children: [
-                                        InkWell(
-                                          onTap: () {
-                                            Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      MovieDetailScreen(
-                                                          movieId: searchModel!
-                                                              .results[index]
-                                                              .id),
-                                                ));
-                                          },
-                                          child: CachedNetworkImage(
-                                            imageUrl:
-                                                "$imageurl${searchModel!.results[index].backdropPath}",
+                          return InkWell(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => MovieDetailScreen(
+                                      movieId: searchModel!.results[index].id),
+                                ),
+                              );
+                            },
+                            child: Column(
+                              children: [
+                                searchModel!.results[index].backdropPath == null
+                                    ? Column(
+                                        children: [
+                                          Image.asset(
+                                            "assets/netflix.png",
                                             height: 150,
                                           ),
-                                        ),
-                                      ],
-                                    ),
+                                          Text(
+                                            searchModel!.results[index].title,
+                                            maxLines: 2,
+                                            style: const TextStyle(
+                                              fontSize: 14,
+                                            ),
+                                          )
+                                        ],
+                                      )
+                                    : Column(
+                                        children: [
+                                          InkWell(
+                                            onTap: () {
+                                              Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        MovieDetailScreen(
+                                                            movieId:
+                                                                searchModel!
+                                                                    .results[
+                                                                        index]
+                                                                    .id),
+                                                  ));
+                                            },
+                                            child: CachedNetworkImage(
+                                              imageUrl:
+                                                  "$imageurl${searchModel!.results[index].backdropPath}",
+                                              height: 150,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
 
-                              Text(
-                                searchModel!.results[index].title,
-                                maxLines: 2,
-                                style: const TextStyle(
-                                  fontSize: 14,
+                                Text(
+                                  searchModel!.results[index].title,
+                                  maxLines: 2,
+                                  style: const TextStyle(
+                                    fontSize: 14,
+                                  ),
                                 ),
-                              ),
-                              // SizedBox(
-                              //   width: 100,
-                              //   child: Text(
-                              //     searchModel!.results[index].originalTitle,
-                              //     maxLines: 2,
-                              //     overflow: TextOverflow.ellipsis,
-                              //     style: const TextStyle(
-                              //       fontSize: 14,
-                              //     ),
-                              //   ),
-                              // )
-                            ],
+                                // SizedBox(
+                                //   width: 100,
+                                //   child: Text(
+                                //     searchModel!.results[index].originalTitle,
+                                //     maxLines: 2,
+                                //     overflow: TextOverflow.ellipsis,
+                                //     style: const TextStyle(
+                                //       fontSize: 14,
+                                //     ),
+                                //   ),
+                                // )
+                              ],
+                            ),
                           );
                         },
                       )
