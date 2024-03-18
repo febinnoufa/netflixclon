@@ -45,9 +45,7 @@ class ApiServise {
     endpoint = "movie/popular";
     final url = "$baseurl$endpoint$key";
     print("search url = $url");
-    final response = await http.get(Uri.parse(url),
-     headers: {}
-     );
+    final response = await http.get(Uri.parse(url), headers: {});
 
     if (response.statusCode == 200) {
       log("Succes ");

@@ -145,9 +145,22 @@ class _MovieDetailScreenState extends State<MovieDetailScreen> {
                                         childAspectRatio: 1.5 / 2,
                                       ),
                                       itemBuilder: (context, index) {
-                                        return CachedNetworkImage(
-                                            imageUrl:
-                                                "${imageurl}${movie.results[index].posterPath}");
+                                        return InkWell(
+                                          onTap: () {
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (context) =>
+                                                    MovieDetailScreen(
+                                                        movieId: movie
+                                                            .results[index].id),
+                                              ),
+                                            );
+                                          },
+                                          child: CachedNetworkImage(
+                                              imageUrl:
+                                                  "${imageurl}${movie.results[index].posterPath}"),
+                                        );
                                       },
                                     )
                                   ],
