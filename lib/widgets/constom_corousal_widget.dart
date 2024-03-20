@@ -7,7 +7,7 @@ import 'package:netflix_clon/models/tv_seres_model.dart';
 class CostomCorouselSlider extends StatelessWidget {
   final TvSeriesModel data;
 
-  const CostomCorouselSlider({super.key, required this.data});
+  const CostomCorouselSlider({required this.data});
 
   @override
   Widget build(BuildContext context) {

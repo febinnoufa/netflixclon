@@ -6,6 +6,8 @@ import 'package:netflix_clon/screens/searchscreen.dart';
 import 'package:netflix_clon/services/api_servise.dart';
 import 'package:netflix_clon/widgets/constom_corousal_widget.dart';
 import 'package:netflix_clon/widgets/movie_card_widget.dart';
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -41,7 +43,7 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         actions: [
           Padding(
-            padding: const EdgeInsets.only(right: 20.0),
+            padding: const EdgeInsets.only(right: 20.0, left: 70),
             child: InkWell(
               onTap: () {
                 Navigator.push(
@@ -79,7 +81,12 @@ class _HomeScreenState extends State<HomeScreen> {
               builder: (context, AsyncSnapshot<TvSeriesModel> snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return const Center(child: CircularProgressIndicator());
-                } else if (snapshot.hasData) {
+                } else if(snapshot.hasError){
+                   return Center(child: CircularProgressIndicator());
+                }
+                
+                
+                else if (snapshot.hasData) {
                   return CostomCorouselSlider(data: snapshot.data!);
                 } else {
                   return const SizedBox.shrink();

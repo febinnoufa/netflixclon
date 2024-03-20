@@ -62,7 +62,14 @@ class MovieCardWidget extends StatelessWidget {
             )
           ],
         );
-      }else{
+      }
+      else if(snapshot.hasError){
+return Center(
+  child: CircularProgressIndicator(),
+);
+      }
+      
+      else{
         return const SizedBox.shrink();
       }
       }

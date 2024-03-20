@@ -8,7 +8,7 @@ import 'package:netflix_clon/models/tv_seres_model.dart';
 import 'package:netflix_clon/models/upcomin_model.dart';
 import 'package:http/http.dart' as http;
 
-const baseurl = "https://api.themoviedb.org/3/";
+const baseurl = "https://api.themoviedb.org/3/   ";
 var key = "?api_key=$apikey";
 late String endpoint;
 
@@ -17,12 +17,12 @@ class ApiServise {
     endpoint = "movie/upcoming";
     final url = "$baseurl$endpoint$key";
 
-    final response = await http.get(Uri.parse(url));
+    final  response = await http.get(Uri.parse(url));
 
     if (response.statusCode == 200) {
       log("Succes ");
 
-      return UpcominMovieModel.fromJson(jsonDecode(response.body));
+      return  await UpcominMovieModel.fromJson(jsonDecode(response.body));
     }
     throw Exception("field to log upcoming movies");
   }

@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:netflix_clon/common/utils.dart';
 
 class ComingSoonMovieWidget extends StatelessWidget {
   final String imageUrl;
@@ -47,7 +48,7 @@ class ComingSoonMovieWidget extends StatelessWidget {
               child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              CachedNetworkImage(imageUrl: imageUrl),
+              CachedNetworkImage(imageUrl: "$imageurl$imageUrl"),
               Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
@@ -55,7 +56,7 @@ class ComingSoonMovieWidget extends StatelessWidget {
                     width: size.width * 0.5,
                     height: size.height * 0.2,
                     child: CachedNetworkImage(
-                      imageUrl: logourl,
+                      imageUrl: "$imageurl$logourl",
                       alignment: Alignment.centerLeft,
                     ),
                   ),
